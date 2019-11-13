@@ -1,0 +1,36 @@
+version: "2"
+services:
+    etcd:
+        build: ./etcd/
+        ports:
+           - 2379:2379
+           - 2380:2380
+           - 4001:4001
+    mongodb:
+        build: ./mongodb/
+        ports:
+           - 27017:27017
+    cronsunweb:
+        build:
+            context: ./
+            dockerfile: ./cronsunweb/Dockerfile
+        ports:
+           - 7079:7079
+        depends_on:
+            - etcd
+            - mongodb
+    cronsun1:
+        build:
+            context: ./
+            dockerfile: ./cronsun1/Dockerfile
+        depends_on:
+            - etcd
+            - mongodb
+    cronsun2:
+        build:
+            context: ./
+            dockerfile: ./cronsun2/Dockerfile
+        depends_on:
+            - etcd
+            - mongodb
+
